@@ -1,0 +1,1 @@
+"C:\scraper\scraperenv\Scripts\python.exe" "C:\scraper\hello.py"
