@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, ForeignKey, Column, String, Integer, CHAR
+from sqlalchemy import create_engine, ForeignKey, Column, String, Integer, CHAR, MetaData, Table, select
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -24,13 +24,28 @@ class Person(Base):
         return f'({self.ssn}) ({self.firstname}) ({self.gender}) ({self.age})'
 
 engine = create_engine("sqlite:///ppl.db", echo=True)
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 
-Session = sessionmaker(bind=engine)
-session = Session()
+# Session = sessionmaker(bind=engine)
+# session = Session()
 
-person = Person(1, 'Mike', 'm', 35)
-session.add(person)
-session.commit()
+# person = Person(1, 'Mike', 'm', 35)
+# person1 = Person(2, 'Mike1', 'f', 40)
+# person2 = Person(3, 'Mike2', 'm', 50)
+# person3 = Person(4, 'Mike3', 'f', 60)
+# session.add(person)
+# session.add(person1)
+# session.add(person2)
+# session.add(person3)
+# session.commit()
 
-#workspace/classes.txt:workspace/input.jpg:workspace/alexnet-pretrained.pt:workspace/result.txt
+c = engine.connect()
+mt = MetaData()
+d = Table('people', mt, autoload=True, autoload_with=engine)
+q = select([d.columns.firstname]).where(d.columns.age >= 55)
+res =c.execute(q)
+
+ls = res.fetchall()
+print(ls)
+
+
