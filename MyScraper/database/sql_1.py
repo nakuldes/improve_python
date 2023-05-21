@@ -42,7 +42,7 @@ engine = create_engine("sqlite:///ppl.db", echo=True)
 c = engine.connect()
 mt = MetaData()
 d = Table('people', mt, autoload=True, autoload_with=engine)
-q = select([d.columns.firstname]).where(d.columns.age >= 55)
+q = select([d.columns.firstname]) #.where(d.columns.age >= 55)
 res =c.execute(q)
 
 ls = res.fetchall()
